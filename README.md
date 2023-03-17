@@ -8,7 +8,7 @@ in every execution of the script, after user enter LHOST/LPORT, the script gener
 3. python3 PowerJoker.py
 4. Enter LHOST/LPORT
 5. run the powershell on the victim machine
-NOTE: you can make a .ps file and send it to the victim, which must have admin permissions on the station. when the .ps script launch, it will execute as administrator permissions and could give high permissions. for now, these lines of code are just comments, but you can modifiy them as you wish. just uncoment the 'privilege' inside the source, and play with it the way want.
+NOTE: you can make a .ps file and send it to the victim, which must have admin permissions on the station. when the .ps script launch, it will execute as administrator permissions and could give high permissions. for now, these lines of code are just comments, but you can modifiy them as you wish. just uncoment the 'privilege' inside the source, and play with it the way want [ Read Update please ]
 6. Make sure victim runs it.
 
 # ForNow
@@ -21,3 +21,6 @@ Windows keeps looking as we all know for such methods of bypassing AV's. for now
 ![‏‏לכידה](https://user-images.githubusercontent.com/90532971/225855059-d39cf97f-0836-426c-9f29-c9efc12f3c2e.PNG)
 
 When the process finish, victim must run the genereted PowerShell code. when he does, wait to recieve a shell. Now Soon i will add more options of bypassing Defender because i know that there are more options/method of bypassing, but again - it can change in everyday. what works today, might not work tomorrow.
+
+# Updates
+Made the code results in giving the base64 as the payload and also generate a 'Privilege.ps1' file which can have inside it the base64 payload. just replace it inside the section where['BASE64_ENCODED_COMMAND_HERE'] with the base64 payload, and you can use the .ps1 instead using only the payload.
