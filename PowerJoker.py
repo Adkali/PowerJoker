@@ -15,13 +15,14 @@ import argparse
 
 # ---------------------  DEFINING COLORS ---------------------
 
+Yellow = "\033[1;33;40m"
+Red = "\033[1;31;40m"
+Normal = "\033[0;0m"
+l_cyan = '\033[96m'
+Pink = '\033[95m'
+
 def Code_Colors():
-    global Yellow, Red, Normal, lcyan, Pink
-    Yellow = "\033[1;33;40m"
-    Red = "\033[1;31;40m"
-    Normal = "\033[0;0m"
-    lcyan = '\033[96m'
-    Pink = '\033[95m'
+    global Yellow, Red, Normal, l_cyan, Pink
 
 Code_Colors()
 
@@ -50,8 +51,8 @@ args = parser.parse_args()
 def Bomb():
     try:
         print(f"\n{Red}{MAIN}{Normal} Calculating Strings...")
-        with open('Payload.ps1') as file:
-            spl = file.read().split()
+        with open('Payload.ps1', 'r') as file:
+            spl = file.read()
             time.sleep(1.5)
             print(f"{SPACE_PREFIX}{Yellow}{TEE2}{Normal}Replace Randomly {len(spl)} Strings....")
             time.sleep(1.5)
@@ -66,7 +67,7 @@ def Bomb():
                 time.sleep(1)
                 print(f"{SPACE_PREFIX}{SPACE_PREFIX}{SPACE_PREFIX}{TEE2}{Pink}{Normal}Finishing it all...")
                 time.sleep(1.5)
-                print(f"{SPACE_PREFIX}{SPACE_PREFIX}{SPACE_PREFIX}{lcyan}{TEE2}{Normal}Payload Generated...... ↓\n")
+                print(f"{SPACE_PREFIX}{SPACE_PREFIX}{SPACE_PREFIX}{l_cyan}{TEE2}{Normal}Payload Generated...... ↓\n")
                 time.sleep(1.5)
 
     except Exception as e:
@@ -190,7 +191,7 @@ def Execute_Payload():
    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 def B64(FTD):
-    with open('Payload.ps1', 'rb') as file:
+    with open(FTD, 'rb') as file:
         file_content = file.read()
     return base64.b64encode(file_content).decode('utf-8')
 
@@ -206,6 +207,7 @@ def main():
     print("PAYLOAD -> Copy and run:\n")
     os.system('iconv -f ASCII -t UTF-16LE Payload.ps1 | base64 -w 0')
     time.sleep(0.5)
+    os.system("rm -r Payload.ps1")
 
 if __name__ == '__main__':
     main()
