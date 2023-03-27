@@ -54,7 +54,7 @@ def Bomb():
         with open('Payload.ps1', 'r') as file:
             spl = file.read()
             time.sleep(1.5)
-            print(f"{SPACE_PREFIX}{Yellow}{TEE2}{Normal}Replace Randomly {len(spl)} Strings....")
+            print(f"{SPACE_PREFIX}{Yellow}{TEE2}{Normal}Checking Randomly {len(spl)} Strings....")
             time.sleep(1.5)
             if "SYSTEMROOT" and "New-Object" and "GetStream" and "ASCII" and "System.Net.Sockets" not in spl:
                 print(f"{SPACE_PREFIX}{SPACE_PREFIX}{TEE2}SYSTEMROOT - Replaced")
