@@ -106,7 +106,7 @@ WordCharSystem4 = ["Sy''st''em.Net.Soc''kets.TcPClIeNt", "SyS''tEm.Net.SoC''kE''
                    ]
 
 # G//e//t//S//t//r//e//a//m
-WordCharSystem5 = ["('Get'+'St'+'r'+'eam')", "('Get'+'Stream')", "('G'+'e'+'T'+'S','T'+'r'+'e'+'m')",
+WordCharSystem5 = ["('Get'+'St'+'r'+'eam')", "('Get'+'Stream')", "('G'+'e'+'T'+'S','T'+'r'+'e'+'am')",
                    "('gEt'+'s'+'T'+'r'+'E'+'aM')", "('G'+'e'+'tStream')"
                    ]
 
