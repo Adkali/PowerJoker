@@ -23,4 +23,5 @@ Windows keeps looking as we all know for such methods of bypassing AV's. for now
 When the process finish, victim must run the genereted PowerShell code. when he does, wait to recieve a shell. Now Soon i will add more options of bypassing Defender because i know that there are more options/method of bypassing, but again - it can change in everyday. what works today, might not work tomorrow.
 
 # Updates
-Made the code results in giving the base64 as the payload and also generate a 'Privilege.ps1' file which can have inside it the base64 payload. just replace it inside the section where['BASE64_ENCODED_COMMAND_HERE'] with the base64 payload, and you can use the .ps1 instead using only the payload.
+Made the code results in giving the base64 as the payload and also generate a 'Privilege.ps1' file which can have inside it the base64 payload. just replace it inside the section where['BASE64_ENCODED_COMMAND_HERE'] with the base64 payload, and you can use the .ps1 instead using only the payload.<br><br>
+<b>17/04</b> - PowerJoker can now randomly pick variables and strings, making it easier to evade real-time protection. I'm currently working on some new obfuscation tequnies.
