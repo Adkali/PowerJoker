@@ -1,4 +1,6 @@
 # PowerJoker
+<img src="https://img.shields.io/maintenance/yes/2023"> <img src="https://img.shields.io/badge/Developed%20on-kali%20linux-blueviolet">
+
 'PowerJoker' is a A PowerShell script which obfuscate a SimplePowerShell payload in each execution.
 in every execution of the script, after user enter LHOST/LPORT, the script generates a SimplePowerShell code, but in an {0/B/F/u/$/c/a/t/3} way which (for now), can evade the Windows Defender/RealTimeProtection. Instead of try changing it manually, the script check for 'known' words, and replace them with a random onces. When done, executing the .ps file results in a shell on the attacker machine, without victim notice it (process runs background). note: Read Bottom Lines about the .ps1 file.
 
