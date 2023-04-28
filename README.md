@@ -7,9 +7,9 @@ in every execution of the script, after user enter LHOST/LPORT, the script gener
 # Usage
 1. Turn on defender on victim machine.
 2. git clone
-3. python3 PowerJoker.py
-4. Enter LHOST/LPORT
-5. run the powershell on the victim machine
+3. pip3 install -r requirements.txt 
+4. python3 PowerJoker.py -l [ LOCAL MACHINE ] -p [ PORT ]
+5. run the powershell code on the victim machine
 NOTE: you can make a .ps file and send it to the victim, which must have admin permissions on the station. when the .ps script launch, it will execute as administrator permissions and could give high permissions. for now, these lines of code are just comments, but you can modifiy them as you wish. just uncoment the 'privilege' inside the source, and play with it the way want [ Read Update please ]
 6. Make sure victim runs it.
 
