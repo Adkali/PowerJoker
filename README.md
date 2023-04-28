@@ -26,4 +26,16 @@ When the process finish, victim must run the genereted PowerShell code. when he 
 
 # Updates
 Made the code results in giving the base64 as the payload and also generate a 'Privilege.ps1' file which can have inside it the base64 payload. just replace it inside the section where['BASE64_ENCODED_COMMAND_HERE'] with the base64 payload, and you can use the .ps1 instead using only the payload.<br><br>
-<b>07/04</b> - PowerJoker can now randomly pick variables and strings, making it easier to evade real-time protection. I'm currently working on some new obfuscation techniques.
+<b>07/04</b> - PowerJoker can now randomly pick variables and strings, making it easier to evade real-time protection. I'm currently working on some new obfuscation techniques.<br><br>
+<b>28/04 Update:</b>
+- Add the ability to show the replaced words in each execution.
+
+- PowrJoker uses the random ability to pick-up from a list.
+
+- Add more functionality to the code for user interaction.
+
+- Using -r flag will show the results in raw mode.
+
+
+
+Now Using another layer of obfuscating could be even strong when combine PJ inside a the generated ps1 file.
