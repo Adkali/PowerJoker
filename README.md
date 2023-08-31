@@ -29,7 +29,7 @@ Made the code results in giving the base64 as the payload and also generate a 'P
 <b>07/04</b> - PowerJoker can now randomly pick variables and strings, making it easier to evade real-time protection. I'm currently working on some new obfuscation techniques.<br><br>
 <b>28/04 Update:</b>
 - Add the ability to show the replaced words in each execution.
-- PowrJoker uses the random ability to pick-up from a list.
+- PowerJoker uses the random ability to pick-up from a list.
 - Add more functionality to the code for user interaction.
 - Using -r flag will show the results in raw mode.
 
