@@ -25,28 +25,25 @@ https://github.com/Adkali/PowerJoker/assets/90532971/525e7aaa-68c6-4b12-9669-60f
 When the process finish, victim must run the genereted PowerShell code. when he does, wait to recieve a shell. Now Soon i will add more options of bypassing Defender because i know that there are more options/method of bypassing, but again - it can change in everyday. what works today, might not work tomorrow.
 
 # Updates
-Made the code results in giving the base64 as the payload and also generate a 'Privilege.ps1' file which can have inside it the base64 payload. just replace it inside the section where['BASE64_ENCODED_COMMAND_HERE'] with the base64 payload, and you can use the .ps1 instead using only the payload.<br><br>
+Made the code results in giving the base64 as the payload and also generate a 'Privilege.ps1' file which can have inside it the base64 payload. just replace it inside the section where['BASE64_ENCODED_COMMAND_HERE'] with the base64 payload, and you can use the .ps1 instead using only the payload.<br>
 ### <b>07/04</b> 
 - PowerJoker can now randomly pick variables and strings.
 - With this method, it is easier to evade real-time protection. I'm currently working on some new obfuscation techniques.<br>
-
 ### <b>28/04 Update:</b>
 - Add the ability to show the replaced words in each execution.
 - PowerJoker uses the random ability to pick-up from a list.
 - Add more functionality to the code for user interaction.
 - Using -r flag will show the results in raw mode.
-
 ### <b>30/08 Update:</b>
 - Auto listener with nc.
 - Fix output when commands are entered.<br>
 Now Using another layer of obfuscating could be even strong when combine PJ inside a the generated ps1 file.
-
 ### <b>5/9 Update:</b>
 #### Enhanced Session Management:
 - Users can now maintain distinct sessions when interacting with PJ.
 - On initiating a session, users have the option of selecting a specific session by entering its ID.
 - Once inside the session, pressing "CTRL+C" allows users to pause the current session and switch between sessions.
-- Commands like "exit" or "quit" will terminate the current session. If you wish to close all, simply select "0" from the menu.
+- Commands like "exit" or "quit" will terminate the current session. If you wish to close all, simply select "0" from the menu. Note while inside a session, and getting a new connection makes it look like it got hanging, press 'CTRL + C' should make it ok.go back and select the SessionID you want.
 #### Advanced Payload Obfuscation:
 - More layers of obfuscation.
 - Note: For users seeking an extra layer, final payload can be a awesome start.
