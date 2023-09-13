@@ -49,4 +49,5 @@ Now Using another layer of obfuscating could be even strong when combine PJ insi
 - Note: For users seeking an extra layer, final payload can be a awesome start.
 #### Improved User Interface:
 - Colors/INFO/OUTPUT has been improved to be much more nicely.
--Note: do not forget to install the requirements.txt. if you face into errors, share me with the information.
+- [!!] Note: DO NOT forget to install the requirements.txt. if you face into errors, share me with the information.
+- [+] ngrok ability. with the use of '-n' flag, user wil be prompt to select a local port with the main socket connections.
