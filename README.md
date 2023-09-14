@@ -50,4 +50,4 @@ Now Using another layer of obfuscating could be even strong when combine PJ insi
 #### Improved User Interface:
 - Colors/INFO/OUTPUT has been improved to be much more nicely.
 - [!!] Note: DO NOT forget to install the requirements.txt. if you face into errors, share me with the information.
-- [+] ngrok ability. with the use of '-n' flag, user wil be prompt to select a local port with the main socket connections. for example usingg 'python3 [ tool.py ] -l [ ngrok.link ] -p [ ngrok port ] -n ngrok', will prompt the user to choose a local port to forward connections from ngrok. dont forget to register to the service of course.
+- [+] ngrok ability. with the use of '-n' flag, user wil be prompt to select a local port with the main socket connections. for example using 'python3 [ tool.py ] -l [ ngrok.link ] -p [ ngrok port ] -n ngrok', will prompt the user to choose a local port to forward connections from ngrok. Do not forget to register to the service of course.
