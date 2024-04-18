@@ -6,7 +6,7 @@ __________________________________________________
 in every execution of the script, after user enter LHOST/LPORT, the script generates a SimplePowerShell code, but in an {0/B/F/u/$/c/a/t/3} way which (for now), can evade the Windows Defender/RealTimeProtection. Instead of try changing it manually, the script check for 'known' words, and replace them with a random onces. When done, executing the .ps file results in a shell on the attacker machine, without victim notice it (process runs background). note: Read Bottom Lines about the .ps1 file.
 
 # Usage
-1. Turn on defender on victim machine.
+1. Turn on defender on victim machine. [ Just for fun ]
 2. git clone
 3. pip3 install -r requirements.txt 
 4. python3 PowerJoker.py -l [ LOCAL MACHINE ] -p [ PORT ]
