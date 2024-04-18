@@ -1,5 +1,5 @@
 # PowerJoker
-<img src="https://img.shields.io/maintenance/yes/2023"> <img src="https://img.shields.io/badge/Developed%20on-kali%20linux-blueviolet"> <img src="https://img.shields.io/badge/Windws_11-Tested-tested"><br>
+<img src="https://img.shields.io/maintenance/yes/2024"> <img src="https://img.shields.io/badge/Developed%20on-kali%20linux-blueviolet"> <img src="https://img.shields.io/badge/Windws_11-Tested-tested"><br>
 ***[Note]:*** if you have issues or have suggestions for improvement, please don't hesitate to reach out
 __________________________________________________
 'PowerJoker' is a A PowerShell script which obfuscate a SimplePowerShell payload in each execution.
