@@ -12,7 +12,7 @@ in every execution of the script, after user enter LHOST/LPORT, the script gener
 4. python3 PowerJoker.py -l [ LOCAL MACHINE ] -p [ PORT ]
 5. run the powershell code on the victim machine
 NOTE: you can make a .ps file and send it to the victim, which must have admin permissions on the station. when the .ps script launch, it will execute as administrator permissions and could give high permissions. for now, these lines of code are just comments, but you can modifiy them as you wish. just uncoment the 'privilege' inside the source, and play with it the way want [ Read Update please ]
-7. Make sure victim runs it.
+6. Make sure victim runs it.
 
 # ForNow
 
