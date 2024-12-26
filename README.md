@@ -6,13 +6,13 @@ __________________________________________________
 in every execution of the script, after user enter LHOST/LPORT, the script generates a SimplePowerShell code, but in an {0/B/F/u/$/c/a/t/3} way which (for now), can evade the Windows Defender/RealTimeProtection. Instead of try changing it manually, the script check for 'known' words, and replace them with a random onces. When done, executing the .ps file results in a shell on the attacker machine, without victim notice it (process runs background). note: Read Bottom Lines about the .ps1 file.
 
 # Usage
-1. Turn on defender on victim machine while doing it [ Just for fun ]
+1. Turn on defender on victim machine while doing it [ Just for fun ].
 2. git clone the repo.
-3. pip3 install -r requirements.txt 
-4. python3 PowerJoker.py -l [ LOCAL MACHINE ] -p [ PORT ]
-5. run the powershell code on the victim machine
-NOTE: you can make a .ps file and send it to the victim, which must have admin permissions on the station. when the .ps script launch, it will execute as administrator permissions and could give high permissions. for now, these lines of code are just comments, but you can modifiy them as you wish. just uncoment the 'privilege' inside the source, and play with it the way want [ Read Update please ]
-6. Make sure victim runs it.
+3. pip3 install -r requirements.txt.
+4. python3 PowerJoker.py -l [ LOCAL MACHINE ] -p [ PORT ].
+5. run the powershell code on the victim machine and wait.<br>
+***NOTE:*** you can make a .ps file and send it to the victim, which must have admin permissions on the station. when the .ps script launch, it will execute as administrator permissions and could give high permissions. for now, these lines of code are just comments, but you can modifiy them as you wish. just uncoment the 'privilege' inside the source, and play with it the way want. [ Read Updates please ]
+7. Make sure victim runs it.
 
 # ForNow
 
